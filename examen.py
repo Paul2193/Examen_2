@@ -64,17 +64,16 @@ def load_data():
     return df, df_completo, df_valid_age
 
 df, df_completo, df_valid_age = load_data()
-df_sample = df.sample(n=5000, random_state=42)  # para mapas, usa solo 5000 para rendimiento
+df_sample = df.sample(n=5000, random_state=42)  # para mapas, usa solo 5000 para rendimiento porque streamlit se cuelga
 
-# 👉 Mostrar conteo y primeras filas
 st.header(' Dataset (primeras 100 filas)')
 st.dataframe(df.head(100))
 
-# 👉 Top 10 tipos de crimen y áreas
+# Top 10 tipos de crimen y áreas
 st.write('**Top 10 tipos de crimen:**', df['Descripción Crimen'].value_counts().head(10))
 st.write('**Top 10 áreas con más crímenes:**', df['Área'].value_counts().head(10))
 
-# 👉 Gráficos
+# Gráficos
 st.subheader('Crímenes por Área')
 fig_area, ax = plt.subplots(figsize=(8, 4))
 df['Área'].value_counts().head(10).plot(kind='barh', color='skyblue', ax=ax)
@@ -87,7 +86,7 @@ sns.histplot(df_valid_age['Edad Víctima'], bins=30, color='purple', ax=ax)
 ax.set_title('Distribución de Edad de las Víctimas')
 st.pyplot(fig_age)
 
-# 👉 Mapas por sexo con contenedores
+# Mapas por sexo 
 st.header('Mapas de Crímenes Agrupados por Sexo')
 
 with st.container():
@@ -128,14 +127,14 @@ with st.container():
         ).add_to(m_female)
     st_folium(m_female, width=1200, height=500)
 
-# 👉 Áreas con más crímenes a mujeres y hombres
+# Áreas con más crímenes a mujeres y hombres
 st.header('Áreas con más crímenes a mujeres y hombres')
 top_female_area = df[df['Sexo Víctima']=='F']['Área'].value_counts().idxmax()
 top_male_area = df[df['Sexo Víctima']=='M']['Área'].value_counts().idxmax()
 st.write(f"**Área con más crímenes a mujeres:** {top_female_area}")
 st.write(f"**Área con más crímenes a hombres:** {top_male_area}")
 
-# 👉 Pruebas estadísticas
+#  Pruebas estadísticas
 st.header('Pruebas Estadísticas')
 
 contingencia = pd.crosstab(df['Descripción Crimen'], df['Sexo Víctima'])
@@ -152,7 +151,7 @@ female_age = df_valid_age[df_valid_age['Sexo Víctima'] == 'F']['Edad Víctima']
 t_stat, p_ttest = ttest_ind(male_age, female_age, equal_var=False)
 st.write(f" **Prueba T-Test**: t = {t_stat:.2f}, p-valor = {p_ttest:.4f}")
 
-# 👉 Conclusiones
+# Conclusiones
 st.header('Conclusiones de las Pruebas Estadísticas')
 st.markdown("""
  **Conclusión de la Prueba de Chi-cuadrado:**  
