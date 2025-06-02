@@ -136,20 +136,19 @@ st.write(f"**Área con más crímenes a hombres:** {top_male_area}")
 
 #  Pruebas estadísticas
 st.header('Pruebas Estadísticas')
-
 contingencia = pd.crosstab(df['Descripción Crimen'], df['Sexo Víctima'])
 chi2, p_chi2, _, _ = chi2_contingency(contingencia)
-st.write(f" **Prueba de Chi-cuadrado**: Chi2 = {chi2:.2f}, p-valor = {p_chi2:.4f}")
+st.write(f" **Prueba de Chi-cuadrado**: Chi2 = {chi2:.2f}, p-valor = {p_chi2:.6e}")
 
 top_crimes = df_valid_age['Descripción Crimen'].value_counts().head(3).index
 samples = [df_valid_age[df_valid_age['Descripción Crimen'] == crime]['Edad Víctima'] for crime in top_crimes]
 stat, p_kruskal = kruskal(*samples)
-st.write(f" **Prueba de Kruskal-Wallis**: H = {stat:.2f}, p-valor = {p_kruskal:.4f}")
+st.write(f" **Prueba de Kruskal-Wallis**: H = {stat:.2f}, p-valor = {p_kruskal:.6e}")
 
 male_age = df_valid_age[df_valid_age['Sexo Víctima'] == 'M']['Edad Víctima']
 female_age = df_valid_age[df_valid_age['Sexo Víctima'] == 'F']['Edad Víctima']
 t_stat, p_ttest = ttest_ind(male_age, female_age, equal_var=False)
-st.write(f" **Prueba T-Test**: t = {t_stat:.2f}, p-valor = {p_ttest:.4f}")
+st.write(f" **Prueba T-Test**: t = {t_stat:.2f}, p-valor = {p_ttest:.6e}")
 
 # Conclusiones
 st.header('Conclusiones de las Pruebas Estadísticas')
