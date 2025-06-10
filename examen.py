@@ -11,7 +11,7 @@ import os
 import gdown
 
 st.set_page_config(layout="wide")
-st.title('📊 Análisis Estadístico de Crímenes en Los Ángeles')
+st.title('Análisis Estadístico de Crímenes en Los Ángeles')
 
 @st.cache_data
 def load_data():
